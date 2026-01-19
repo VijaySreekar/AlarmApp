@@ -28,6 +28,12 @@ function MainApp() {
     });
   }, []);
 
+  const testNow = () => {
+    setCurrentAlarmId(`test-now-${Date.now()}`);
+    setCurrentAlarmLabel('Test Alarm');
+    setAlarmScreenVisible(true);
+  };
+
   const testOneMin = async () => {
     const now = new Date();
     const testTime = new Date(now.getTime() + 60 * 1000);
@@ -106,6 +112,7 @@ function MainApp() {
     container: { backgroundColor: colors.background },
     header: { borderBottomColor: colors.border },
     headerTitle: { color: colors.text },
+    testButton: { borderColor: colors.border, backgroundColor: colors.surface },
     settingsButton: { borderColor: colors.border },
     emptyText: { color: colors.textSecondary },
   };
@@ -120,8 +127,16 @@ function MainApp() {
       <StatusBar barStyle={isDark ? "light-content" : "dark-content"} backgroundColor={colors.background} />
       
       <View style={[styles.header, dynamicStyles.header]}>
-        <Text style={[styles.headerTitle, dynamicStyles.headerTitle]}>Alarm</Text>
+        <Text style={[styles.headerTitle, dynamicStyles.headerTitle]}>AlarmApp</Text>
         <View style={styles.headerButtons}>
+          <TouchableOpacity
+            style={[styles.testNowButton, dynamicStyles.testButton]}
+            onPress={testNow}
+            accessibilityRole="button"
+            accessibilityLabel="Test now"
+          >
+            <Text style={[styles.testNowText, { color: colors.textSecondary }]}>Test Now</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={[styles.settingsButton, dynamicStyles.settingsButton]}
             onPress={() => setSettingsVisible(true)}
@@ -204,6 +219,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+  },
+  testNowButton: {
+    paddingHorizontal: 14,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  testNowText: {
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 0.5,
   },
   settingsButton: {
     width: 40,

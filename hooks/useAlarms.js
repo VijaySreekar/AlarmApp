@@ -282,12 +282,21 @@ export const useAlarms = () => {
           ? { ...baseContent, channelId: 'alarm-channel' }
           : baseContent;
 
+      const trigger =
+        Platform.OS === 'android'
+          ? {
+              type: Notifications.SchedulableTriggerInputTypes.DATE,
+              date: alarmDate,
+              channelId: 'alarm-channel',
+            }
+          : { type: Notifications.SchedulableTriggerInputTypes.DATE, date: alarmDate };
+
       await Notifications.scheduleNotificationAsync({
         identifier: `alarm-${alarm.id}`,
         content: {
           ...content,
         },
-        trigger: alarmDate,
+        trigger,
       });
       
       console.log('Alarm scheduled:', alarm.label, 'at', alarmDate.toLocaleTimeString());
@@ -397,12 +406,22 @@ export const useAlarms = () => {
           ? { ...baseContent, channelId: 'alarm-channel' }
           : baseContent;
 
+      const snoozeDate = new Date(Date.now() + minutes * 60 * 1000);
+      const trigger =
+        Platform.OS === 'android'
+          ? {
+              type: Notifications.SchedulableTriggerInputTypes.DATE,
+              date: snoozeDate,
+              channelId: 'alarm-channel',
+            }
+          : { type: Notifications.SchedulableTriggerInputTypes.DATE, date: snoozeDate };
+
       await Notifications.scheduleNotificationAsync({
         identifier: `snooze-${alarmId}`,
         content: {
           ...content,
         },
-        trigger: new Date(Date.now() + minutes * 60 * 1000),
+        trigger,
       });
     } catch (error) {
       console.error('Error scheduling snooze alarm:', error);

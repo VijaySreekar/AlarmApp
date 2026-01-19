@@ -24,7 +24,7 @@ const FloatingActionMenu = ({ onAddCustom, onAddTestOneMin }) => {
     const leftAngle = degToRad(-30);
     const rightAngle = degToRad(30);
 
-    return [
+    const nextActions = [
       {
         key: 'testOneMin',
         labelTop: '+1 min',
@@ -41,7 +41,9 @@ const FloatingActionMenu = ({ onAddCustom, onAddTestOneMin }) => {
         translateY: -distance * Math.cos(rightAngle),
         onPress: onAddCustom,
       },
-    ];
+    ].filter(Boolean);
+
+    return nextActions;
   }, [onAddCustom, onAddTestOneMin]);
 
   const containerBottom = insets.bottom + 24;
@@ -196,4 +198,3 @@ const styles = StyleSheet.create({
 });
 
 export default FloatingActionMenu;
-
